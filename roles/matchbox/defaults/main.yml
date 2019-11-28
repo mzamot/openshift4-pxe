@@ -1,0 +1,19 @@
+---
+rhcos_download: true
+matchbox_download: true
+matchbox_version: v0.8.3
+matchbox_url: "https://github.com/poseidon/matchbox/releases/download/{{ matchbox_version }}/matchbox-{{ matchbox_version }}-linux-amd64.tar.gz"
+rhcos_base_url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.2/latest/
+rhcos_kernel: rhcos-4.2.0-x86_64-installer-kernel
+rhcos_initramfs: rhcos-4.2.0-x86_64-installer-initramfs.img
+rhcos_metal: rhcos-4.2.0-x86_64-metal-bios.raw.gz
+rhcos_install_dev: sda
+
+# Add each node to the nodes variables. A group file will be created for each node.
+nodes:
+  - name: node1 
+    mac: 56:6f:48:8c:00:0a
+    type: bootstrap
+  - name: node2 
+    mac: 56:6f:48:8c:00:0b
+    type: master

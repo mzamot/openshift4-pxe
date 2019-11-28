@@ -1,0 +1,23 @@
+---
+- name: Install loadbalancer for OpenShift Masters
+  yum:
+    name: haproxy
+    state: present
+
+- name: Set haproxy_connect_any flag on and keep it persistent across reboots
+  seboolean:
+    name: haproxy_connect_any
+    state: yes
+    persistent: yes
+
+- name: Configure haproxy
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify: restart haproxy
+  
+- name: Start and enable haproxy
+  systemd:
+    name: haproxy
+    state: started
+    enabled: yes

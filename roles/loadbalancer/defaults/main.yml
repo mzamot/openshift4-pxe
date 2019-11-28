@@ -1,0 +1,7 @@
+---
+# Add the bootstrap and each master host to the nodes variable. This information will be used to populate haproxy
+nodes:
+  - name: bootstrap
+    ip: 10.0.0.2
+  - name: node01
+    ip: 10.0.0.3

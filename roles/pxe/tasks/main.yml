@@ -1,0 +1,28 @@
+---
+- name: Install required packages
+  yum:
+    name:
+    - tftp-server 
+    - dnsmasq
+    - syslinux-tftpboot 
+    - tree 
+    - python36
+    - ipxe-bootimgs
+- name: Copy ipxe files to tftpboot
+  copy:
+    src: "{{ item }}"
+    dest: /var/lib/tftpboot/
+  loop:
+    - /usr/share/ipxe/undionly.kpxe
+    - /usr/share/ipxe/ipxe.efi
+- name: Configure dnsmasq
+  template:
+    src: pxe.conf.j2
+    dest: /etc/dnsmasq.d/pxe.conf
+  notify: start dnsmasq
+
+- name: Start and enable dnsmasq
+  systemd:
+    name: dnsmasq
+    state: started
+    enabled: yes

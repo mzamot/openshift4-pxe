@@ -1,0 +1,18 @@
+---
+nodes:
+  - name: bootstrap
+    mac: 56:6f:48:8c:00:09
+    type: bootstrap
+    ip: 192.168.2.204
+  - name: oc-master01
+    mac: 56:6f:48:8c:00:0a
+    type: master
+    ip: 192.168.2.201
+  - name: oc-master02
+    mac: 56:6f:48:8c:00:0b
+    type: master
+    ip: 192.168.2.202
+  - name: oc-master03
+    mac: 56:6f:48:8c:00:0c
+    type: master
+    ip: 192.168.2.203

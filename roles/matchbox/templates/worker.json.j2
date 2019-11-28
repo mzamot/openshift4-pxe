@@ -1,0 +1,21 @@
+{
+ "id": "worker",
+ "name": "Worker server",
+ "ignition_id": "worker.ign",
+ "boot": {
+  "kernel": "/assets/{{ rhcos_kernel }}",
+  "initrd": [
+   "/assets/{{ rhcos_initramfs }}"
+   ],
+   "args": [
+    "ip=dhcp",
+    "rd.neednet=1",
+    "console=tty0",
+    "console=ttyS0",
+    "coreos.inst=yes",
+    "coreos.inst.install_dev={{ rhcos_install_dev }}",
+    "coreos.inst.image_url=http://{{ inventory_hostname }}:8080/assets/{{ rhcos_metal }}",
+    "coreos.inst.ignition_url=http://{{ inventory_hostname }}:8080/ignition?mac=${mac:hexhyp}"
+   ]
+ }
+}

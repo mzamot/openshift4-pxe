@@ -1,0 +1,69 @@
+---
+- name: Create matchbox user
+  user:
+    name: matchbox
+
+- name: Download matchbox
+  get_url:
+    url: "{{ matchbox_url }}"
+    dest: /tmp
+  when: matchbox_download == true
+
+- name: Copy matchbox tarball
+  copy:
+    src: "matchbox-{{ matchbox_version }}-linux-amd64.tar.gz"
+    dest: /tmp
+  when: matchbox_download != true
+
+- name: Install matchbox binary
+  unarchive:
+    src: "/tmp/matchbox-{{ matchbox_version }}-linux-amd64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
+    extra_opts:
+    - matchbox-{{ matchbox_version }}-linux-amd64/matchbox
+
+- name: Install matchbox systemd service
+  copy:
+    src: matchbox-local.service
+    dest: /etc/systemd/system/matchbox.service
+
+- name: Create folders for matchbox
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: matchbox
+    group: matchbox
+  loop:
+  - /var/lib/matchbox
+  - /var/lib/matchbox/assets
+  - /var/lib/matchbox/groups
+  - /var/lib/matchbox/ignition
+  - /var/lib/matchbox/profiles
+
+- name: Copy matchbox profiles
+  template:
+    src: "{{ item }}"
+    dest: /var/lib/matchbox/profiles/
+    owner: matchbox
+    group: matchbox
+  loop:
+  - bootstrap.json.j2
+  - master.json.j2
+  - worker.json.j2
+
+- name: Create matchbox groups
+  template:
+    src: group.json.j2
+    dest: "/var/lib/matchbox/groups/{{ item.name }}.json"
+    owner: matchbox
+    group: matchbox
+  loop: "{{ nodes }}"
+  notify: start matchbox
+
+- name: Start and enable matchbox
+  systemd:
+    name: matchbox
+    state: started
+    enabled: yes
+- include: rhcos.yaml

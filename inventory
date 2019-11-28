@@ -1,0 +1,3 @@
+[infra]
+infra.lab.zamot.io ansible_user=cloud-user
+

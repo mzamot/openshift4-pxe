@@ -26,6 +26,7 @@
     src: "/tmp/matchbox-{{ matchbox_version }}-linux-amd64/matchbox"
     dest: /usr/local/bin/
     remote_src: yes
+    mode: 0755
 
 - name: Install matchbox systemd service
   copy:
@@ -40,7 +41,6 @@
     group: matchbox
   loop:
   - /var/lib/matchbox
-  - /var/lib/matchbox/artifacts
   - /var/lib/matchbox/assets
   - /var/lib/matchbox/groups
   - /var/lib/matchbox/ignition

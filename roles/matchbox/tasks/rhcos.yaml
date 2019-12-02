@@ -2,7 +2,7 @@
 - name: Download RHCOS files to matchbox
   get_url:
     url: "{{ rhcos_base_url }}/{{ item }}"
-    dest: /var/lib/matchbox/artifacts/
+    dest: /var/lib/matchbox/assets/
   loop:
   - "{{ rhcos_kernel }}"
   - "{{ rhcos_initramfs }}"
@@ -12,7 +12,7 @@
 - name: Copy RHCOS files to matchbox
   copy:
     src: "{{ item }}"
-    dest: /var/lib/matchbox/artifacts/
+    dest: /var/lib/matchbox/assets/
     owner: matchbox
     group: matchbox
   loop:

@@ -12,6 +12,7 @@
   copy:
     src: "{{ item }}"
     dest: /var/lib/tftpboot/
+    remote_src: yes
   loop:
     - /usr/share/ipxe/undionly.kpxe
     - /usr/share/ipxe/ipxe.efi

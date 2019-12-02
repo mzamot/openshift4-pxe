@@ -15,13 +15,17 @@
     dest: /tmp
   when: matchbox_download != true
 
-- name: Install matchbox binary
+- name: Extract matchbox binary
   unarchive:
     src: "/tmp/matchbox-{{ matchbox_version }}-linux-amd64.tar.gz"
-    dest: /usr/local/bin
+    dest: /tmp
     remote_src: yes
-    extra_opts:
-    - matchbox-{{ matchbox_version }}-linux-amd64/matchbox
+
+- name: Install matchbox binary
+  copy:
+    src: "/tmp/matchbox-{{ matchbox_version }}-linux-amd64/matchbox"
+    dest: /usr/local/bin/
+    remote_src: yes
 
 - name: Install matchbox systemd service
   copy:
@@ -36,6 +40,7 @@
     group: matchbox
   loop:
   - /var/lib/matchbox
+  - /var/lib/matchbox/artifacts
   - /var/lib/matchbox/assets
   - /var/lib/matchbox/groups
   - /var/lib/matchbox/ignition

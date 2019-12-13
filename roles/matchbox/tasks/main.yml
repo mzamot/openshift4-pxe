@@ -48,14 +48,14 @@
 
 - name: Copy matchbox profiles
   template:
-    src: "{{ item }}"
-    dest: /var/lib/matchbox/profiles/
+    src: "{{ item }}.j2"
+    dest: "/var/lib/matchbox/profiles/{{ item }}"
     owner: matchbox
     group: matchbox
   loop:
-  - bootstrap.json.j2
-  - master.json.j2
-  - worker.json.j2
+  - bootstrap.json
+  - master.json
+  - worker.json
 
 - name: Create matchbox groups
   template:
